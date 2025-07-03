@@ -25,7 +25,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate  # No crear tablas automáticamente en producción
+      ddl-auto: none  # No validar ni modificar el esquema
     properties:
       hibernate:
         dialect: org.hibernate.dialect.Oracle12cDialect
