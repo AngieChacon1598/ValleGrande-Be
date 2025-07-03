@@ -285,15 +285,18 @@ public class SalesService {
                     UserType userType = user.getUserType();
                     if (userType != null) {
                         System.out.println("UserType encontrado - ID: " + userType.getUserTypeId() + ", Nombre: " + userType.getName());
-                        userDto.setUserTypeName(userType.getName());
+                        UserTypeDTO userTypeDTO = new UserTypeDTO();
+                        userTypeDTO.setId(userType.getUserTypeId());
+                        userTypeDTO.setName(userType.getName());
+                        userDto.setUserType(userTypeDTO);
                     } else {
                         System.out.println("UserType es null para el usuario: " + user.getUserId());
-                        userDto.setUserTypeName("Tipo de usuario no disponible");
+                        userDto.setUserType(null);
                     }
                 } catch (Exception e) {
                     System.out.println("Error al cargar UserType para el usuario " + user.getUserId() + ": " + e.getMessage());
                     e.printStackTrace();
-                    userDto.setUserTypeName("Tipo de usuario no disponible");
+                    userDto.setUserType(null);
                 }
                 
                 response.setUser(userDto);
