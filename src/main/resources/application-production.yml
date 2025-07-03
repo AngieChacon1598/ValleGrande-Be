@@ -1,0 +1,23 @@
+# Configuración específica para producción
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when-authorized
+      show-components: always
+  health:
+    db:
+      enabled: true
+    diskspace:
+      enabled: true
+
+# Configuración de seguridad para actuator en producción
+spring:
+  security:
+    user:
+      name: admin
+      password: ${ACTUATOR_PASSWORD:admin123} 

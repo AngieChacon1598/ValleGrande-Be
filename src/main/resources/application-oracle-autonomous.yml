@@ -1,0 +1,77 @@
+# Configuración específica para Oracle Database Autonomous
+spring:
+  config:
+    activate:
+      on-profile: oracle-autonomous
+  datasource:
+    url: jdbc:oracle:thin:@SistemaGestionVentas_medium?TNS_ADMIN=${TNS_ADMIN}
+    username: ${DB_USERNAME:DEVELOPER2}
+    password: ${DB_PASSWORD:soyAngie2025}
+    driver-class-name: oracle.jdbc.OracleDriver
+    # Configuración optimizada para Oracle Autonomous y Render
+    hikari:
+      maximum-pool-size: 3
+      minimum-idle: 1
+      connection-timeout: 30000
+      idle-timeout: 300000
+      max-lifetime: 900000
+      leak-detection-threshold: 30000
+      # Configuración específica para Oracle Autonomous
+      connection-test-query: SELECT 1 FROM DUAL
+      validation-timeout: 5000
+      # Configuración para Render (plan gratuito)
+      pool-name: HikariCP-Oracle
+      register-mbeans: false
+
+  jpa:
+    hibernate:
+      ddl-auto: validate  # No crear tablas automáticamente en producción
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle12cDialect
+        format_sql: false
+        # Configuración para Oracle Autonomous
+        connection:
+          provider_disables_autocommit: true
+        jdbc:
+          batch_size: 20
+          batch_versioned_data: true
+    show-sql: false
+
+server:
+  port: ${PORT:8083}
+  address: 0.0.0.0
+  # Configuración para Render
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+  # Configuración de timeout para Render (usando configuración específica del servidor)
+  tomcat:
+    connection-timeout: 30000
+
+logging:
+  level:
+    '[org.springframework]': WARN
+    '[org.hibernate.SQL]': WARN
+    '[org.hibernate.type.descriptor.sql.BasicBinder]': WARN
+    '[com.zaxxer.hikari]': INFO
+
+# Configuración de health check específica para Oracle
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when-authorized
+      show-components: always
+  health:
+    db:
+      enabled: true
+    diskspace:
+      enabled: true
+    # Health check específico para Oracle
+    defaults:
+      enabled: true 

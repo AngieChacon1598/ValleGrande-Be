@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: vallegrande-backend
+    env: docker
+    plan: free
+    buildCommand: mvn clean package -DskipTests
+    startCommand: java -jar target/RestLosPinos-1.0-SNAPSHOT.jar
+    envVars:
+      - key: JAVA_VERSION
+        value: 17
+      - key: SPRING_PROFILES_ACTIVE
+        value: oracle-autonomous
+      - key: PORT
+        value: 8083
+      - key: TNS_ADMIN
+        value: /app/Wallet_SistemaGestionVentas
+      - key: DB_USERNAME
+        value: DEVELOPER2
+      - key: DB_PASSWORD
+        sync: false  # Se configurará manualmente en Render
+      - key: JAVA_OPTS
+        value: "-Xmx512m -Xms256m -XX:+UseG1GC -XX:+UseContainerSupport"
+    healthCheckPath: /actuator/health
+    autoDeploy: true
+    buildFilter:
+      paths:
+        - src/**
+        - pom.xml
+        - Dockerfile
+        - Wallet_SistemaGestionVentas/** 

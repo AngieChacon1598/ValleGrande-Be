@@ -1,0 +1,73 @@
+spring:
+  profiles:
+    active: development
+  datasource:
+    url: jdbc:oracle:thin:@SistemaGestionVentas_medium?TNS_ADMIN=Wallet_SistemaGestionVentas
+    username: DEVELOPER2
+    password: soyAngie2025
+    driver-class-name: oracle.jdbc.OracleDriver
+    # Configuración específica para Oracle Autonomous
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 60000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle12cDialect
+        format_sql: true
+    show-sql: true
+
+server:
+  port: 8083
+  address: 0.0.0.0
+
+logging:
+  level:
+    '[org.springframework]': INFO
+    '[org.hibernate.SQL]': DEBUG
+    '[org.hibernate.type.descriptor.sql.BasicBinder]': TRACE
+
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+  datasource:
+    url: jdbc:oracle:thin:@SistemaGestionVentas_medium?TNS_ADMIN=${TNS_ADMIN}
+    username: ${DB_USERNAME:DEVELOPER2}
+    password: ${DB_PASSWORD:soyAngie2025}
+    driver-class-name: oracle.jdbc.OracleDriver
+    # Configuración específica para Oracle Autonomous en producción
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 60000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle12cDialect
+        format_sql: false
+    show-sql: false
+
+server:
+  port: ${PORT:8083}
+  address: 0.0.0.0
+
+logging:
+  level:
+    '[org.springframework]': WARN
+    '[org.hibernate.SQL]': WARN
+    '[org.hibernate.type.descriptor.sql.BasicBinder]': WARN

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ListDate" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="719afb23-3864-47e0-8280-9452ff27932b">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Oracle Cloud"/>
+	<parameter name="TICKET_ID_PRINCIPAL" class="java.math.BigDecimal"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+    DISTINCT st.ticket_id AS id_ticket,
+    st.sale_date AS fecha_ticket,
+    ru.names || ' ' || ru.surnames AS cliente,
+    ru.address AS direccion_cliente,
+    st.total_payment AS total_pago,
+    st.delivery,
+    st.delivery_address,
+    st.note,
+    pt.name AS payment_method
+FROM
+    developer2.sales_ticket st
+JOIN
+    developer1.restaurant_user ru ON st.user_id = ru.user_id
+JOIN
+    developer2.payment_type pt ON st.id_payment_type = pt.id_payment_type
+WHERE
+    st.ticket_id = $P{TICKET_ID_PRINCIPAL}
+ORDER BY
+    st.sale_date ASC, st.ticket_id]]>
+	</queryString>
+	<field name="ID_TICKET" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="ID_TICKET"/>
+		<property name="com.jaspersoft.studio.field.label" value="ID_TICKET"/>
+	</field>
+	<field name="FECHA_TICKET" class="java.util.Date">
+		<property name="com.jaspersoft.studio.field.name" value="FECHA_TICKET"/>
+		<property name="com.jaspersoft.studio.field.label" value="FECHA_TICKET"/>
+	</field>
+	<field name="CLIENTE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="CLIENTE"/>
+		<property name="com.jaspersoft.studio.field.label" value="CLIENTE"/>
+	</field>
+	<field name="DIRECCION_CLIENTE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DIRECCION_CLIENTE"/>
+		<property name="com.jaspersoft.studio.field.label" value="DIRECCION_CLIENTE"/>
+	</field>
+	<field name="TOTAL_PAGO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="TOTAL_PAGO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TOTAL_PAGO"/>
+	</field>
+	<field name="DELIVERY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DELIVERY"/>
+		<property name="com.jaspersoft.studio.field.label" value="DELIVERY"/>
+	</field>
+	<field name="DELIVERY_ADDRESS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DELIVERY_ADDRESS"/>
+		<property name="com.jaspersoft.studio.field.label" value="DELIVERY_ADDRESS"/>
+	</field>
+	<field name="NOTE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NOTE"/>
+		<property name="com.jaspersoft.studio.field.label" value="NOTE"/>
+	</field>
+	<field name="PAYMENT_METHOD" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="PAYMENT_METHOD"/>
+		<property name="com.jaspersoft.studio.field.label" value="PAYMENT_METHOD"/>
+	</field>
+	<sortField name="ID_TICKET" order="Descending"/>
+	<sortField name="FECHA_TICKET" order="Descending"/>
+	<group name="ID_TICKET">
+		<groupExpression><![CDATA[$F{ID_TICKET}]]></groupExpression>
+	</group>
+	<group name="FECHA_TICKET">
+		<groupExpression><![CDATA[$F{FECHA_TICKET}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="141" splitType="Stretch">
+			<staticText>
+				<reportElement x="40" y="16" width="318" height="38" uuid="5e074f70-1f3e-4195-a0f1-2d93de904271"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="30" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Restaurante Los Pinos]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="354" y="11" width="191" height="89" uuid="6965fb9b-d80b-4c08-9b59-c2684700b0ca"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="354" y="36" width="190" height="40" forecolor="#FFFFFF" backcolor="#5C5C5C" uuid="b1adb7a2-f21d-4b73-9d49-d77b4b037d9d"/>
+				<box>
+					<pen lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BOLETA DE VENTA ELECTRÓNICA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="402" y="79" width="80" height="19" uuid="83d3a813-122e-4339-867b-6c034b88b53d"/>
+				<box>
+					<pen lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[B100 -  0000]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="482" y="80" width="40" height="18" uuid="447dd39d-41c7-44c0-8211-87ea7203c22c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7830ec5e-27fe-4e2d-b5cb-51929c71952d"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID_TICKET}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="41" y="59" width="214" height="19" uuid="af15bd73-0092-4218-bcc8-2e6b7543b426"/>
+				<box>
+					<pen lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Av. 28 de Julio - San Vicente de Cañete]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="100" width="94" height="19" uuid="7e6e6406-113a-42bc-a631-f3a226f3d75a"/>
+				<box>
+					<pen lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Telf: 956324587]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="17" width="150" height="19" uuid="1f94d784-1fb3-4cb9-8fbb-1a24b23159d6"/>
+				<box>
+					<pen lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[RUC: 2050412568954]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="80" width="200" height="19" uuid="b2269082-1338-40f6-b59d-dbd440679029"/>
+				<box>
+					<pen lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[www.restaurantelospinos.com]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="182" splitType="Stretch">
+			<staticText>
+				<reportElement x="41" y="20" width="160" height="30" uuid="8bf2b5d2-a68d-4e03-a827-be0a10a974cc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="046d548e-7ced-4b7e-83ba-efe5ea00b763"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha y Hora del Ticket:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="196" y="20" width="180" height="30" uuid="43dc7208-9a4b-4d36-99c8-60853219e01f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="046d548e-7ced-4b7e-83ba-efe5ea00b763"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA_TICKET}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="41" y="47" width="100" height="25" uuid="e17e72d2-12dd-4531-940d-f2bac056ca1c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2fbce186-170c-45b4-9774-33d130ac753c"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="135" y="47" width="165" height="30" uuid="98caf1e6-b859-4bf6-b558-854cfde68b9d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2fbce186-170c-45b4-9774-33d130ac753c"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CLIENTE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="41" y="73" width="100" height="30" uuid="57e33ccd-204e-4a8a-bf6a-295f4798357a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2fbce186-170c-45b4-9774-33d130ac753c"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de pago:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="135" y="74" width="223" height="24" uuid="6cb05ef4-2e1f-48b1-a644-04e7afccad0f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="75ecc4ba-7924-4f45-96b1-6b44046b2668"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYMENT_METHOD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="135" y="100" width="189" height="30" uuid="4c620493-eb10-42f7-b84a-405d57edd9a7"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIRECCION_CLIENTE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="41" y="99" width="100" height="30" uuid="b4b827be-f8ef-4f30-a7ab-36efa0d04931">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2fbce186-170c-45b4-9774-33d130ac753c"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="156" width="360" height="24" uuid="270dac27-d58d-453f-8f4d-74952e498555"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalles del pedido]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="42" splitType="Stretch">
+			<subreport>
+				<reportElement x="19" y="2" width="29" height="29" uuid="4def77ed-775f-49c6-98a8-2878d257fefe"/>
+				<subreportParameter name="TICKET_ID">
+					<subreportParameterExpression><![CDATA[new Integer($F{ID_TICKET}.intValue())]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Subreporte1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="351" y="-38" width="100" height="30" uuid="12253639-4941-43d5-a981-1dea0377d955">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fa0abddc-6a8d-4c19-a8a7-721fdd8874f7"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total a Pagar:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="481" y="-36" width="28" height="30" uuid="4eb26d1b-a58f-4214-b48d-bdcd84a4be1d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fa0abddc-6a8d-4c19-a8a7-721fdd8874f7"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL_PAGO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="462" y="-37" width="24" height="30" uuid="ba2bf06f-6036-4e19-95a9-0f6e673f93a0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fa0abddc-6a8d-4c19-a8a7-721fdd8874f7"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="false"/>
+				</textElement>
+				<text><![CDATA[S/. ]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="186" y="10" width="100" height="20" uuid="ecf03ca8-bc8c-45a6-a802-319d95e7ece5"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Ticket impreso el: ]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM, yyyy">
+				<reportElement x="280" y="9" width="100" height="20" uuid="b24e9472-7af2-48ad-82da-7fefa980a12f"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="36" splitType="Stretch"/>
+	</summary>
+</jasperReport>
