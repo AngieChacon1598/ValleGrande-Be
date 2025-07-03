@@ -74,7 +74,7 @@ public class ProductController {
                     .contentType(MediaType.APPLICATION_PDF)
                     .body(pdf);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // <--- Esto ya imprime el error en los logs
             return ResponseEntity.internalServerError().build();
         }
     }
