@@ -10,6 +10,7 @@ spring:
     driver-class-name: oracle.jdbc.OracleDriver
     # Configuración optimizada para Oracle Autonomous y Render
     hikari:
+      auto-commit: false
       maximum-pool-size: 3
       minimum-idle: 1
       connection-timeout: 30000
