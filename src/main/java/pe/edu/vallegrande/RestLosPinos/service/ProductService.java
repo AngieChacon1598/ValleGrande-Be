@@ -106,9 +106,8 @@ public class ProductService {
         // 2. Crear un mapa de parámetros (si el reporte los necesita)
         HashMap<String, Object> params = new HashMap<>();
         params.put("ESTADO_PRODUCTO", String.valueOf(estadoProducto)); // 1=activo, 0=inactivo, siempre como String
-        // Si el reporte tiene subreportes, se pasa la ruta:
-        File subreportDir = new ClassPathResource("reports/").getFile();
-        params.put("SUBREPORT_DIR", subreportDir.getAbsolutePath() + File.separator);
+        // Usar path relativo para subreportes (compatible con JAR)
+        params.put("SUBREPORT_DIR", "reports/");
         // 3. Llenar el reporte con la conexión a la base de datos
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperStream, params, dataSource.getConnection());
         // 4. Exportar el reporte a PDF y devolverlo como arreglo de bytes
