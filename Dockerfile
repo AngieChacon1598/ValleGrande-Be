@@ -4,6 +4,7 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 COPY Wallet_SistemaGestionVentas ./Wallet_SistemaGestionVentas
+RUN apt-get update && apt-get install -y libfreetype6
 RUN mvn clean package -DskipTests
 
 # Etapa 2: Imagen final
@@ -16,6 +17,7 @@ COPY --from=build /app/Wallet_SistemaGestionVentas ./Wallet_SistemaGestionVentas
 RUN apt-get update && apt-get install -y \
     libaio1 \
     wget \
+    libfreetype6 \
     && rm -rf /var/lib/apt/lists/*
 
 # Crear directorio para logs
