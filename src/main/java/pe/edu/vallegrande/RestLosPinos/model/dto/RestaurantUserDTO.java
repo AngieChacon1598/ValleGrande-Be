@@ -16,5 +16,5 @@ public class RestaurantUserDTO {
     private String documentType;
     private String numberType;
     private String state;
-    private String userTypeName; // Nombre del tipo de usuario
+    private UserTypeDTO userType;
 }

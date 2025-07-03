@@ -10,6 +10,8 @@ import pe.edu.vallegrande.RestLosPinos.repository.RestaurantUserRepository;
 import pe.edu.vallegrande.RestLosPinos.repository.UserTypeRepository;
 import pe.edu.vallegrande.RestLosPinos.model.UserType;
 import java.util.Optional;
+import pe.edu.vallegrande.RestLosPinos.model.dto.RestaurantUserDTO;
+import pe.edu.vallegrande.RestLosPinos.model.dto.UserTypeDTO;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -22,21 +24,24 @@ public class AuthServiceImpl implements AuthService {
     private final String SECRET = "myjwtsecret";
 
     @Override
-    public String register(RestaurantUser userData) {
+    public String register(RestaurantUserDTO userDTO) {
         RestaurantUser newUser = new RestaurantUser();
-        newUser.setUserId(userData.getUserId());
-        newUser.setUserName(userData.getUserName());
-        newUser.setPassword(encoder.encode(userData.getPassword()));
-        newUser.setNames(userData.getNames());
-        newUser.setSurnames(userData.getSurnames());
-        newUser.setDateOfBirth(userData.getDateOfBirth());
-        newUser.setAddress(userData.getAddress());
-        newUser.setTelephone(userData.getTelephone());
-        newUser.setEmail(userData.getEmail());
-        newUser.setDocumentType(userData.getDocumentType());
-        newUser.setNumberType(userData.getNumberType());
-        newUser.setState(userData.getState());
-        Integer userTypeId = userData.getUserType().getUserTypeId();
+        newUser.setUserId(userDTO.getUserId());
+        newUser.setUserName(userDTO.getUserName());
+        newUser.setPassword(encoder.encode(userDTO.getPassword()));
+        newUser.setNames(userDTO.getNames());
+        newUser.setSurnames(userDTO.getSurnames());
+        newUser.setDateOfBirth(userDTO.getDateOfBirth());
+        newUser.setAddress(userDTO.getAddress());
+        newUser.setTelephone(userDTO.getTelephone());
+        newUser.setEmail(userDTO.getEmail());
+        newUser.setDocumentType(userDTO.getDocumentType());
+        newUser.setNumberType(userDTO.getNumberType());
+        newUser.setState(userDTO.getState());
+        Integer userTypeId = userDTO.getUserType() != null ? userDTO.getUserType().getId() : null;
+        if (userTypeId == null) {
+            throw new IllegalArgumentException("El campo userType.id es obligatorio");
+        }
         UserType userType = userTypeRepository.findById(userTypeId)
             .orElseThrow(() -> new RuntimeException("Tipo de usuario no encontrado"));
         newUser.setUserType(userType);

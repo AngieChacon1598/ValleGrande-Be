@@ -10,6 +10,7 @@ import pe.edu.vallegrande.RestLosPinos.service.AuthService;
 import pe.edu.vallegrande.RestLosPinos.util.EncryptUtil;
 import pe.edu.vallegrande.RestLosPinos.util.SecurityUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import pe.edu.vallegrande.RestLosPinos.model.dto.RestaurantUserDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -27,8 +28,8 @@ public class AuthController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RestaurantUser user) {
-        return ResponseEntity.ok(authService.register(user));
+    public ResponseEntity<String> register(@RequestBody RestaurantUserDTO userDTO) {
+        return ResponseEntity.ok(authService.register(userDTO));
     }
 
     @PostMapping("/login")
