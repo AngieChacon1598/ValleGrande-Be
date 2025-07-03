@@ -7,6 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pe.edu.vallegrande.RestLosPinos.model.RestaurantUser;
 import pe.edu.vallegrande.RestLosPinos.repository.RestaurantUserRepository;
+import pe.edu.vallegrande.RestLosPinos.repository.UserTypeRepository;
+import pe.edu.vallegrande.RestLosPinos.model.UserType;
 import java.util.Optional;
 
 @Service
@@ -15,14 +17,16 @@ public class AuthServiceImpl implements AuthService {
     private RestaurantUserRepository userRepository;
     @Autowired
     private BCryptPasswordEncoder encoder;
+    @Autowired
+    private UserTypeRepository userTypeRepository;
     private final String SECRET = "myjwtsecret";
 
     @Override
     public String register(RestaurantUser userData) {
         RestaurantUser newUser = new RestaurantUser();
         newUser.setUserId(userData.getUserId());
-        newUser.setUserName(userData.getUserName()); // Guardar en texto plano
-        newUser.setPassword(encoder.encode(userData.getPassword())); // Hashear password
+        newUser.setUserName(userData.getUserName());
+        newUser.setPassword(encoder.encode(userData.getPassword()));
         newUser.setNames(userData.getNames());
         newUser.setSurnames(userData.getSurnames());
         newUser.setDateOfBirth(userData.getDateOfBirth());
@@ -32,7 +36,10 @@ public class AuthServiceImpl implements AuthService {
         newUser.setDocumentType(userData.getDocumentType());
         newUser.setNumberType(userData.getNumberType());
         newUser.setState(userData.getState());
-        newUser.setUserType(userData.getUserType());
+        Integer userTypeId = userData.getUserType().getUserTypeId();
+        UserType userType = userTypeRepository.findById(userTypeId)
+            .orElseThrow(() -> new RuntimeException("Tipo de usuario no encontrado"));
+        newUser.setUserType(userType);
         userRepository.save(newUser);
         return "Registrado correctamente";
     }
