@@ -30,7 +30,7 @@ public interface SalesTicketRepository extends JpaRepository<SalesTicket, Long> 
            "LEFT JOIN FETCH pd.product")
     List<SalesTicket> findAllWithRelations();
 
-    @Query("SELECT s FROM SalesTicket s " +
+    @Query("SELECT DISTINCT s FROM SalesTicket s " +
            "LEFT JOIN FETCH s.user u " +
            "LEFT JOIN FETCH u.userType " +
            "LEFT JOIN FETCH s.orderStatusType " +
