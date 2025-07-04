@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.vallegrande.RestLosPinos.model.Product;
 import pe.edu.vallegrande.RestLosPinos.service.ProductService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -77,5 +78,28 @@ public class ProductController {
             e.printStackTrace(); // <--- Esto ya imprime el error en los logs
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    // Nuevos endpoints de filtrado para app móvil
+    @GetMapping("/category/{categoryId}")
+    public List<Product> getProductsByCategory(@PathVariable Long categoryId) {
+        return productService.getProductsByCategory(categoryId);
+    }
+
+    @GetMapping("/category/{categoryId}/active")
+    public List<Product> getActiveProductsByCategory(@PathVariable Long categoryId) {
+        return productService.getActiveProductsByCategory(categoryId);
+    }
+
+    @GetMapping("/search")
+    public List<Product> searchProducts(@RequestParam String name) {
+        return productService.searchProductsByName(name);
+    }
+
+    @GetMapping("/price-range")
+    public List<Product> getProductsByPriceRange(
+            @RequestParam BigDecimal minPrice,
+            @RequestParam BigDecimal maxPrice) {
+        return productService.getProductsByPriceRange(minPrice, maxPrice);
     }
 }

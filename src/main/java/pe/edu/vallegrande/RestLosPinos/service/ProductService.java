@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.io.File;
 
 import java.util.List;
+import java.math.BigDecimal;
 
 @Service
 @Transactional
@@ -112,5 +113,22 @@ public class ProductService {
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperStream, params, dataSource.getConnection());
         // 4. Exportar el reporte a PDF y devolverlo como arreglo de bytes
         return JasperExportManager.exportReportToPdf(jasperPrint);
+    }
+
+    // Nuevos métodos de filtrado para app móvil
+    public List<Product> getProductsByCategory(Long categoryId) {
+        return productRepository.findByCategory_Id(categoryId);
+    }
+
+    public List<Product> getActiveProductsByCategory(Long categoryId) {
+        return productRepository.findByCategory_IdAndStatus(categoryId, Boolean.TRUE);
+    }
+
+    public List<Product> searchProductsByName(String name) {
+        return productRepository.findByNameContainingIgnoreCaseAndStatus(name, Boolean.TRUE);
+    }
+
+    public List<Product> getProductsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+        return productRepository.findByPriceBetweenAndStatus(minPrice, maxPrice, Boolean.TRUE);
     }
 }
