@@ -13,10 +13,12 @@ public class CorsGlobalConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://vallegrande-fe.onrender.com")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedOriginPatterns("*")  // Permite todos los orígenes
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
                         .allowedHeaders("*")
-                        .allowCredentials(true);
+                        .exposedHeaders("Authorization", "Content-Type")
+                        .allowCredentials(true)
+                        .maxAge(3600); // Cache preflight por 1 hora
             }
         };
     }
