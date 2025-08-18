@@ -15,6 +15,12 @@ public class SalesRequestDTO {
     private String deliveryAddress;
     private String note;
     
+    // Campos para formato simple
+    private Integer userId;
+    private Integer id_type_state;
+    private Integer id_payment_type;
+    
+    // Campos para formato complejo (objetos anidados)
     @JsonProperty("user")
     private UserIdDTO user;
     
@@ -44,14 +50,26 @@ public class SalesRequestDTO {
 
     // Métodos de conveniencia para obtener los IDs
     public Integer getUserId() {
+        // Priorizar formato simple, luego formato complejo
+        if (userId != null) {
+            return userId;
+        }
         return user != null ? user.getUserId() : null;
     }
 
     public Integer getIdTypeState() {
+        // Priorizar formato simple, luego formato complejo
+        if (id_type_state != null) {
+            return id_type_state;
+        }
         return orderStatusType != null ? orderStatusType.getIdTypeState() : null;
     }
 
     public Integer getIdPaymentType() {
+        // Priorizar formato simple, luego formato complejo
+        if (id_payment_type != null) {
+            return id_payment_type;
+        }
         return paymentType != null ? paymentType.getIdPaymentType() : null;
     }
 }

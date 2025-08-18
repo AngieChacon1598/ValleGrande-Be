@@ -39,6 +39,14 @@ public class SalesService {
 
     @Transactional
     public SalesResponseDTO createSale(SalesRequestDTO request) {
+        // Agregar logging para debug
+        System.out.println("=== DEBUG: Creando venta ===");
+        System.out.println("Usuario ID: " + request.getUserId());
+        System.out.println("Estado ID: " + request.getIdTypeState());
+        System.out.println("Tipo de pago ID: " + request.getIdPaymentType());
+        System.out.println("Total: " + request.getTotalPayment());
+        System.out.println("Productos en la venta: " + request.getProductDetails().size());
+        
         RestaurantUser user = restaurantUserRepository.findById(request.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
 
@@ -62,8 +70,13 @@ public class SalesService {
         List<ProductDetail> details = new ArrayList<>();
 
         for (SalesDetailDTO pdDto : request.getProductDetails()) {
+            // Agregar logging para debug
+            System.out.println("Intentando buscar producto con ID: " + pdDto.getProductId());
+            
             Product product = productRepository.findById(pdDto.getProductId())
                     .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado: " + pdDto.getProductId()));
+
+            System.out.println("Producto encontrado: " + product.getName() + " (ID: " + product.getId() + ")");
 
             ProductDetail detail = ProductDetail.builder()
                     .amount(pdDto.getAmount())

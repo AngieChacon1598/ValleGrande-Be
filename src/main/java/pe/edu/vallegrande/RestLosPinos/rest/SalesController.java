@@ -11,6 +11,8 @@ import pe.edu.vallegrande.RestLosPinos.model.dto.SalesRequestDTO;
 import pe.edu.vallegrande.RestLosPinos.model.dto.SalesResponseDTO;
 import pe.edu.vallegrande.RestLosPinos.service.SalesService;
 import pe.edu.vallegrande.RestLosPinos.util.SecurityUtil;
+import pe.edu.vallegrande.RestLosPinos.model.Product;
+import pe.edu.vallegrande.RestLosPinos.repository.ProductRepository;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ import java.util.List;
 public class SalesController {
 
     private final SalesService salesService;
+    private final ProductRepository productRepository;
 
     @PostMapping
     public ResponseEntity<SalesResponseDTO> createSale(@RequestBody SalesRequestDTO salesRequestDTO) {
@@ -109,6 +112,26 @@ public class SalesController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/debug/products")
+    public ResponseEntity<String> debugProducts() {
+        try {
+            // Obtener todos los productos para debug
+            List<Product> products = productRepository.findAll();
+            StringBuilder debug = new StringBuilder();
+            debug.append("=== PRODUCTOS DISPONIBLES ===\n");
+            for (Product product : products) {
+                debug.append("ID: ").append(product.getId())
+                     .append(", Nombre: ").append(product.getName())
+                     .append(", Precio: ").append(product.getPrice())
+                     .append(", Estado: ").append(product.getStatus())
+                     .append("\n");
+            }
+            return ResponseEntity.ok(debug.toString());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }
 }
